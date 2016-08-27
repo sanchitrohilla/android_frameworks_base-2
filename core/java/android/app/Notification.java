@@ -4840,8 +4840,8 @@ public class Notification implements Parcelable
                 boolean ambient) {
             boolean colorable = !isLegacy() || getColorUtil().isGrayscaleIcon(mContext, smallIcon);
             int color;
-            if (!mAllowIconTextTint) {
-                color = ambient ? resolveAmbientColor() : mThemeContext.getColor(R.color.notification_icon_default_color);
+            if (!Resources.getSystem().getBoolean(R.bool.config_allowNotificationIconTextTinting)) {
+                color = ambient ? resolveAmbientColor() : mContext.getColor(R.color.notification_icon_default_color);
             } else {
                 color = ambient ? resolveAmbientColor() : getPrimaryHighlightColor();
             }
@@ -4875,20 +4875,20 @@ public class Notification implements Parcelable
         }
 
         int getSenderTextColor() {
-            return mThemeContext.getColor(R.color.sender_text_color);
+            return mContext.getColor(R.color.sender_text_color);
         }
 
         int resolveIconContrastColor() {
-            if (!mAllowIconTextTint) {
-                return mThemeContext.getColor(R.color.notification_icon_default_color);
+            if (!Resources.getSystem().getBoolean(R.bool.config_allowNotificationIconTextTinting)) {
+                return mContext.getColor(R.color.notification_icon_default_color);
             } else {
                 return resolveContrastColor();
             }
         }
 
         int resolveContrastColor() {
-            if (!mAllowIconTextTint) {
-                return mThemeContext.getColor(R.color.notification_text_default_color);
+            if (!Resources.getSystem().getBoolean(R.bool.config_allowNotificationIconTextTinting)) {
+                return mContext.getColor(R.color.notification_text_default_color);
             }
 
             if (mCachedContrastColorIsFor == mN.color && mCachedContrastColor != COLOR_INVALID) {
@@ -6270,7 +6270,7 @@ public class Notification implements Parcelable
                 sb.append(bidi.unicodeWrap(m.mSender),
                         makeFontColorSpan(colorize
                                 ? builder.getPrimaryTextColor()
-                                : mBuilder.resolveContrastColor()),
+                                : builder.getSenderTextColor()),
                         0 /* flags */);
             }
             CharSequence text = m.mText == null ? "" : m.mText;
