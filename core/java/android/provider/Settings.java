@@ -4670,12 +4670,27 @@ public final class Settings {
          *
          * @hide
          */
+
         public static final String LOCKSCREEN_VISUALIZER_ENABLED = "lockscreen_visualizer";
         /**
          * Whether to show the notification ticker on the status bar
          * @hide
          */
         public static final String STATUS_BAR_SHOW_TICKER = "status_bar_show_ticker";
+
+        public static final String SCREENSHOT_DEFAULT_MODE = "screenshot_default_mode";
+
+        /**
+         * show carrier in statusbar. The value is
+         * int (1: Show or 0: Hide).
+         */
+        public static final String STATUS_BAR_CARRIER = "status_bar_carrier";
+
+        /**
+         * custom carrier label. The value is
+         * String.
+         */
+        public static final String CUSTOM_CARRIER_LABEL = "custom_carrier_label";
 
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
