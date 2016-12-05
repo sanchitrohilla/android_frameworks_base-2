@@ -15,7 +15,11 @@
 -->
 <animated-vector
     xmlns:android="http://schemas.android.com/apk/res/android"
+<<<<<<< HEAD
     android:drawable="@drawable/ic_qs_collapse" >
+=======
+    android:drawable="@drawable/ic_volume_collapse" >
+>>>>>>> 79d56d1... Themes: SystemUI: Use own drawables for QS expand icon
     <target
         android:name="right"
         android:animation="@anim/ic_caret_down_right_animation" />
