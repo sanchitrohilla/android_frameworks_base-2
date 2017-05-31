@@ -419,6 +419,7 @@ public class RecentsView extends FrameLayout {
             @Override
             public void onClick(View view) {
                 EventBus.getDefault().send(new ToggleRecentsEvent());
+                updateMemoryStatus();
             }
         });
     }
