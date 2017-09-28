@@ -30,6 +30,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.ViewGroup;
 import android.view.View;
+import android.widget.HorizontalScrollView;
 import android.widget.RelativeLayout;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
@@ -73,6 +74,7 @@ public class QuickStatusBarHeader extends FrameLayout implements StatusBarHeader
     private HorizontalScrollView mQuickQsPanelScroller;
     private ImageView mBackgroundImage;
     private Drawable mCurrentBackground;
+    private HorizontalScrollView mQuickQsPanelScroller;
 
     public QuickStatusBarHeader(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -212,7 +214,6 @@ public class QuickStatusBarHeader extends FrameLayout implements StatusBarHeader
     public void updateSettings() {
         mHeaderQsPanel.updateSettings();
     }
-
     @Override
     public void updateHeader(final Drawable headerImage, final boolean force) {
         post(new Runnable() {

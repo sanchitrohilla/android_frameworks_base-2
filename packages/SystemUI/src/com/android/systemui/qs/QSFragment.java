@@ -30,6 +30,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout.LayoutParams;
+import android.widget.HorizontalScrollView;
 
 import com.android.systemui.Interpolators;
 import com.android.systemui.R;
@@ -64,8 +65,10 @@ public class QSFragment extends Fragment implements QS {
     private int mLayoutDirection;
     private QSFooter mFooter;
 
+
     // omni additions
     private boolean mSecureExpandDisabled;
+    private HorizontalScrollView mQuickQsPanelScroller;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -84,8 +87,10 @@ public class QSFragment extends Fragment implements QS {
         mContainer = view.findViewById(id.quick_settings_container);
 
         mQSDetail.setQsPanel(mQSPanel, mHeader, (View) mFooter);
+        mQuickQsPanelScroller =
+                (HorizontalScrollView) mHeader.findViewById(R.id.quick_qs_panel_scroll);
         mQSAnimator = new QSAnimator(this,
-                mHeader.findViewById(R.id.quick_qs_panel), mQSPanel);
+                mHeader.findViewById(R.id.quick_qs_panel), mQSPanel, mQuickQsPanelScroller);
 
         mQSCustomizer = view.findViewById(R.id.qs_customize);
         mQSCustomizer.setQs(this);
@@ -130,6 +135,10 @@ public class QSFragment extends Fragment implements QS {
 
     @Override
     public View getHeader() {
+        return mHeader;
+    }
+
+    public QuickStatusBarHeader getQuickStatusBarHeader() {
         return mHeader;
     }
 
