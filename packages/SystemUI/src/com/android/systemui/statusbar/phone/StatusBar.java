@@ -205,6 +205,7 @@ import com.android.systemui.qs.QSPanel;
 import com.android.systemui.qs.QSTileHost;
 import com.android.systemui.qs.QuickStatusBarHeader;
 import com.android.systemui.qs.car.CarQSFragment;
+import com.android.systemui.qs.QuickStatusBarHeader;
 import com.android.systemui.recents.Recents;
 import com.android.systemui.recents.ScreenPinningRequest;
 import com.android.systemui.recents.events.EventBus;
@@ -407,6 +408,9 @@ public class StatusBar extends SystemUI implements DemoMode,
      */
     private static final float SRC_MIN_ALPHA = 0.002f;
 
+    private static final String QS_QUICKBAR_SCROLL_ENABLED =
+            "system:" + Settings.System.QS_QUICKBAR_SCROLL_ENABLED;
+
     static {
         boolean onlyCoreApps;
         boolean freeformWindowManagement;
@@ -483,6 +487,7 @@ public class StatusBar extends SystemUI implements DemoMode,
     int mLinger;
     int mInitialTouchX;
     int mInitialTouchY;
+    private QuickStatusBarHeader mQuickStatusBarHeader;
 
     // top bar
     protected KeyguardStatusBarView mKeyguardStatusBar;
@@ -1089,6 +1094,10 @@ public class StatusBar extends SystemUI implements DemoMode,
                 = (MediaSessionManager) mContext.getSystemService(Context.MEDIA_SESSION_SERVICE);
         // TODO: use MediaSessionManager.SessionListener to hook us up to future updates
         // in session state
+
+        Dependency.get(TunerService.class).addTunable(this,
+                QS_TILE_TITLE_VISIBILITY,
+                QS_QUICKBAR_SCROLL_ENABLED);
 
         // Lastly, call to the icon policy to install/update all the icons.
         mIconPolicy = new PhoneStatusBarPolicy(mContext, mIconController);
@@ -5335,6 +5344,9 @@ public class StatusBar extends SystemUI implements DemoMode,
 
     public void onClosingFinished() {
         runPostCollapseRunnables();
+        if (mQuickStatusBarHeader != null) {
+            mQuickStatusBarHeader.onClosingFinished();
+        }
         if (!isPanelFullyCollapsed()) {
             // if we set it not to be focusable when collapsing, we have to undo it when we aborted
             // the closing
@@ -8295,6 +8307,18 @@ public class StatusBar extends SystemUI implements DemoMode,
     }
     // End Extra BaseStatusBarMethods.
 
+    @Override
+    public void onTuningChanged(String key, String newValue) {
+        switch (key) {
+            case QS_QUICKBAR_SCROLL_ENABLED:
+                if (mQuickStatusBarHeader != null) {
+                    mQuickStatusBarHeader.updateSettings();
+                }
+                break;
+            default:
+                break;
+        }
+    }
     private final Runnable mAutoDim = () -> {
         if (mNavigationBar != null) {
             mNavigationBar.getBarTransitions().setAutoDim(true);
