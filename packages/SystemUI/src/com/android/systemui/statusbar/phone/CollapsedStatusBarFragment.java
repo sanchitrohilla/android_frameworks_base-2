@@ -95,10 +95,6 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
         mNetworkController = Dependency.get(NetworkController.class);
         mStatusBarComponent = SysUiServiceProvider.getComponent(getContext(), StatusBar.class);
         mSettingsObserver = new SettingsObserver(new Handler());
-
-        mTickerEnabled = Settings.System.getIntForUser(mContentResolver,
-                Settings.System.STATUS_BAR_SHOW_TICKER, 1,
-                UserHandle.USER_CURRENT);
     }
 
     class SettingsObserver extends UserContentObserver {
@@ -195,7 +191,7 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
         mNetworkTraffic = mStatusBar.findViewById(R.id.networkTraffic);
 
         mSettingsObserver.observe();
-        initTickerView();
+        mSettingsObserver.update();
 
     }
 
