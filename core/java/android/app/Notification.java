@@ -4875,7 +4875,7 @@ public class Notification implements Parcelable
         }
 
         int getSenderTextColor() {
-            return mContext.getColor(R.color.sender_text_color);
+            return mThemeContext.getColor(R.color.sender_text_color);
         }
 
         int resolveIconContrastColor() {
@@ -4905,8 +4905,10 @@ public class Notification implements Parcelable
                 ensureColors();
                 color = mSecondaryTextColor;
             } else {
+                boolean isDark = mInNightMode || mThemeContext.getResources()
+                        .getBoolean(R.bool.config_useDarkBgNotificationIconTextTinting);
                 color = NotificationColorUtil.resolveContrastColor(mThemeContext, mN.color,
-                        background, mInNightMode);
+                        background, isDark);
             }
             if (Color.alpha(color) < 255) {
                 // alpha doesn't go well for color filters, so let's blend it manually
