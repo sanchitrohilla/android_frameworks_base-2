@@ -351,7 +351,7 @@ public class QSFooterImpl extends FrameLayout implements QSFooter,
         } else if (v == mAlarmStatus || v == mAlarmStatusCollapsed) {
             Dependency.get(MetricsLogger.class).action(ACTION_QS_DATE,
                     mNextAlarm != null);
-            if (mNextAlarm != null) {
+            if (mNextAlarm != null && mNextAlarm.getShowIntent() != null) {
                 PendingIntent showIntent = mNextAlarm.getShowIntent();
                 mActivityStarter.startPendingIntentDismissingKeyguard(showIntent);
             } else {
