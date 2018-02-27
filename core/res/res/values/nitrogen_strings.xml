@@ -47,4 +47,10 @@
 
     <!-- Pocket Lock -->
     <string name="pocket_lock_message_long_press">Long press power button to interact</string>
+
+
+ <string name="permlab_accessFontManager">access font manager</string>
+   <string name="permdesc_accessFontManager">Allows an application to access the font manager.</string>
+
+
 </resources>
