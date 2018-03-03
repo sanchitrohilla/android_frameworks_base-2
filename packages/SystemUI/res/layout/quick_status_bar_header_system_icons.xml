@@ -20,6 +20,7 @@
 	android:id="@+id/qs_header_system_icons"
     android:layout_width="match_parent"
     android:layout_height="@dimen/qs_header_system_icons_area_height"
+    android:id="@+id/headerIcons"
     android:layout_alignParentEnd="true"
     android:clipChildren="false"
     android:clipToPadding="false"
