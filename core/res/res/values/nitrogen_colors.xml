@@ -16,26 +16,26 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-    <!-- Notification sender text color -->
-    <color name="sender_text_color">@android:color/black</color>
+    <!-- Notification sender text color 
+    <color name="sender_text_color">@android:color/black</color> -->
 
-    <!-- Ambient Notification icon/text dynamic tint -->
-    <color name="notification_text_default_color">@android:color/notification_text_default_color</color>
+    <!-- Ambient Notification icon/text dynamic tint 
+    <color name="notification_text_default_color">@android:color/notification_text_default_color</color> -->
 
-    <!-- Resolver -->
-    <color name="resolver_list_bg">@android:color/white</color>
+    <!-- Resolver 
+    <color name="resolver_list_bg">@android:color/white</color> -->
 
-    <!-- Immersive cling -->
+    <!-- Immersive cling 
     <color name="immersive_cling_bg_color">@color/accent_device_default_light</color>
     <color name="immersive_cling_text_color">@android:color/white</color>
-    <color name="immersive_cling_button_text_color">@android:color/white</color>
+    <color name="immersive_cling_button_text_color">@android:color/white</color> -->
 
-    <!-- App permission tint -->
-    <color name="app_permission_icon_tint">@android:color/black</color>
+    <!-- App permission tint 
+    <color name="app_permission_icon_tint">@android:color/black</color> -->
 
-    <!-- Toast text and bg colors -->
+    <!-- Toast text and bg colors 
     <color name="toast_bg_color">#E6EEEEEE</color>
-    <color name="toast_text_color">@color/primary_text_default_material_light</color>
+    <color name="toast_text_color">@color/primary_text_default_material_light</color> -->
 
     <!-- Misc colors -->
     <color name="theme_color1">@color/black</color>
