@@ -1489,16 +1489,6 @@ public class StatusBar extends SystemUI implements DemoMode,
         Dependency.get(DarkIconDispatcher.class).onOverlayChanged(mContext);
     }
 
-    @Override
-    public void onOverlayChanged() {
-        reinflateViews();
-        updateNotificationsOnOverlayChanged();
-        mStackScroller.onOverlayChanged();
-        mNotificationShelf.onOverlayChanged();
-        mNotificationPanel.onOverlayChanged();
-        Dependency.get(DarkIconDispatcher.class).onOverlayChanged(mContext);
-    }
-
     private void reinflateViews() {
         reevaluateStyles();
 

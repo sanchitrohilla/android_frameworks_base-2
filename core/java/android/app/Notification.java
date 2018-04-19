@@ -4886,13 +4886,13 @@ public class Notification implements Parcelable
             }
         }
 
-        int resolveIconContrastColor() {
+       /** int resolveIconContrastColor() {
             if (!mContext.getResources().getBoolean(R.bool.config_allowNotificationIconTextTinting)) {
                 return mContext.getColor(R.color.notification_icon_default_color);
             } else {
                 return resolveContrastColor();
             }
-        }
+        }*/
 
         int resolveContrastColor() {
             if (!mContext.getResources().getBoolean(R.bool.config_allowNotificationIconTextTinting)) {
