@@ -46,6 +46,10 @@ import java.io.PrintWriter;
 import java.util.BitSet;
 import java.util.Objects;
 import java.util.List;
+import android.content.ContentResolver;
+import android.net.Uri;
+import android.os.UserHandle;
+import android.provider.Settings;
 
 public class MobileSignalController extends SignalController<
         MobileSignalController.MobileState, MobileSignalController.MobileIconGroup> {
@@ -110,8 +114,6 @@ public class MobileSignalController extends SignalController<
         };
     }
 
-<<<<<<< HEAD
-=======
     class SettingsObserver extends ContentObserver {
         SettingsObserver(Handler handler) {
             super(handler);
@@ -119,9 +121,6 @@ public class MobileSignalController extends SignalController<
 
         void observe() {
             ContentResolver resolver = mContext.getContentResolver();
-            resolver.registerContentObserver(
-                    Settings.System.getUriFor(Settings.System.ROAMING_INDICATOR_ICON), false,
-                    this, UserHandle.USER_ALL);
             resolver.registerContentObserver(
                     Settings.System.getUriFor(Settings.System.SHOW_FOURG_ICON), false,
                     this, UserHandle.USER_ALL);
