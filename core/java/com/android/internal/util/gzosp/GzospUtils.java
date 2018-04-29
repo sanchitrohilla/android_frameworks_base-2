@@ -17,9 +17,9 @@
 package com.android.internal.util.gzosp;
 
 import android.app.ActivityManager;
-import android.content.pm.ActivityInfo;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -27,7 +27,6 @@ import android.content.res.Resources;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
-
 import android.hardware.input.InputManager;
 import android.net.ConnectivityManager;
 import android.os.Handler;
@@ -55,6 +54,7 @@ public class GzospUtils {
     private static final int DEVICE_PHONE = 0;
     private static final int DEVICE_HYBRID = 1;
     private static final int DEVICE_TABLET = 2;
+
     public static final String INTENT_SCREENSHOT = "action_take_screenshot";
     public static final String INTENT_REGION_SCREENSHOT = "action_take_region_screenshot";
 
@@ -156,6 +156,7 @@ public class GzospUtils {
     public static boolean isTablet(Context context) {
         return getScreenType(context) == DEVICE_TABLET;
     }
+
     public static ActivityInfo getRunningActivityInfo(Context context) {
         final ActivityManager am = (ActivityManager) context
                 .getSystemService(Context.ACTIVITY_SERVICE);
