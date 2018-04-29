@@ -133,10 +133,6 @@ public class QSFragment extends Fragment implements QS {
         return mHeader;
     }
 
-    public QuickStatusBarHeader getQuickStatusBarHeader() {
-        return mHeader;
-    }
-
     @Override
     public void setHasNotifications(boolean hasNotifications) {
     }
