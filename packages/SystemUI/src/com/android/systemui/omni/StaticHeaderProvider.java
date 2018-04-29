@@ -18,21 +18,36 @@
 
 package com.android.systemui.omni;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
+import android.content.res.XmlResourceParser;
 import android.database.ContentObserver;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
+import android.util.Log;
 import android.os.Handler;
 import android.os.UserHandle;
 import android.provider.Settings;
-import android.util.Log;
+import android.util.SparseArray;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
 
 import com.android.systemui.R;
 import com.android.internal.util.aicp.AicpUtils;
@@ -58,7 +73,7 @@ public class StaticHeaderProvider implements
     }
 
     @Override
-    public void settingsChanged(Uri uri) {
+    public void settingsChanged() {
         final boolean customHeader = Settings.System.getIntForUser(mContext.getContentResolver(),
                 Settings.System.STATUS_BAR_CUSTOM_HEADER, 0,
                 UserHandle.USER_CURRENT) == 1;
@@ -79,7 +94,7 @@ public class StaticHeaderProvider implements
 
     @Override
     public void enableProvider() {
-        settingsChanged(null);
+        settingsChanged();
     }
 
     @Override
