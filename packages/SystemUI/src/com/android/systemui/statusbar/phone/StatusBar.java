@@ -487,7 +487,6 @@ public class StatusBar extends SystemUI implements DemoMode,
     int mLinger;
     int mInitialTouchX;
     int mInitialTouchY;
-    private QuickStatusBarHeader mQuickStatusBarHeader;
 
     // top bar
     protected KeyguardStatusBarView mKeyguardStatusBar;
@@ -1095,9 +1094,9 @@ public class StatusBar extends SystemUI implements DemoMode,
         // TODO: use MediaSessionManager.SessionListener to hook us up to future updates
         // in session state
 
-        Dependency.get(TunerService.class).addTunable(this,
+        /**Dependency.get(TunerService.class).addTunable(this,
                 QS_TILE_TITLE_VISIBILITY,
-                QS_QUICKBAR_SCROLL_ENABLED);
+                QS_QUICKBAR_SCROLL_ENABLED);*/
 
         // Lastly, call to the icon policy to install/update all the icons.
         mIconPolicy = new PhoneStatusBarPolicy(mContext, mIconController);
@@ -3808,7 +3807,7 @@ public class StatusBar extends SystemUI implements DemoMode,
         mHandler.postDelayed(mAutohide, AUTOHIDE_TIMEOUT_MS);
     }
 
-    public void touchAutoDim() {
+      public void touchAutoDim() {
         if (mNavigationBar != null) {
             mNavigationBar.getBarTransitions().setAutoDim(false);
         }
@@ -8307,7 +8306,7 @@ public class StatusBar extends SystemUI implements DemoMode,
     }
     // End Extra BaseStatusBarMethods.
 
-    @Override
+   /** @Override
     public void onTuningChanged(String key, String newValue) {
         switch (key) {
             case QS_QUICKBAR_SCROLL_ENABLED:
@@ -8318,7 +8317,7 @@ public class StatusBar extends SystemUI implements DemoMode,
             default:
                 break;
         }
-    }
+    }*/
     private final Runnable mAutoDim = () -> {
         if (mNavigationBar != null) {
             mNavigationBar.getBarTransitions().setAutoDim(true);
