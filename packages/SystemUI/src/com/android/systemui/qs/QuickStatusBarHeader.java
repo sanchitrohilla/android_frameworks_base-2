@@ -62,9 +62,6 @@ public class QuickStatusBarHeader extends FrameLayout implements StatusBarHeader
     protected QuickQSPanel mHeaderQsPanel;
     protected QSTileHost mHost;
 
-    protected QuickQSPanel mHeaderQsPanel;
-    protected QSTileHost mHost;
-
     private BatteryMeterView mBatteryView;
     private Clock mClock;
     private Clock mLeftClock;
