@@ -29,7 +29,6 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)material/alarms/Sunshower.ogg:system/media/audio/alarms/Sunshower.ogg \
     $(LOCAL_PATH)material/effects/audio_end.ogg:system/media/audio/ui/audio_end.ogg \
     $(LOCAL_PATH)material/effects/audio_initiate.ogg:system/media/audio/ui/audio_initiate.ogg \
-    $(LOCAL_PATH)material/effects/camera_click.ogg:system/media/audio/ui/camera_click.ogg \
     $(LOCAL_PATH)material/effects/camera_focus.ogg:system/media/audio/ui/camera_focus.ogg \
     $(LOCAL_PATH)material/effects/Dock.ogg:system/media/audio/ui/Dock.ogg \
     $(LOCAL_PATH)material/effects/Effect_Tick.ogg:system/media/audio/ui/Effect_Tick.ogg \
@@ -40,7 +39,6 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)material/effects/KeypressSpacebar.ogg:system/media/audio/ui/KeypressSpacebar.ogg \
     $(LOCAL_PATH)material/effects/KeypressStandard.ogg:system/media/audio/ui/KeypressStandard.ogg \
     $(LOCAL_PATH)material/effects/Lock.ogg:system/media/audio/ui/Lock.ogg \
-    $(LOCAL_PATH)material/effects/LowBattery.ogg:system/media/audio/ui/LowBattery.ogg \
     $(LOCAL_PATH)material/effects/NFCFailure.ogg:system/media/audio/ui/NFCFailure.ogg \
     $(LOCAL_PATH)material/effects/NFCInitiated.ogg:system/media/audio/ui/NFCInitiated.ogg \
     $(LOCAL_PATH)material/effects/NFCSuccess.ogg:system/media/audio/ui/NFCSuccess.ogg \
@@ -49,8 +47,6 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)material/effects/Trusted.ogg:system/media/audio/ui/Trusted.ogg \
     $(LOCAL_PATH)material/effects/Undock.ogg:system/media/audio/ui/Undock.ogg \
     $(LOCAL_PATH)material/effects/Unlock.ogg:system/media/audio/ui/Unlock.ogg \
-    $(LOCAL_PATH)material/effects/VideoRecord.ogg:system/media/audio/ui/VideoRecord.ogg \
-    $(LOCAL_PATH)material/effects/VideoStop.ogg:system/media/audio/ui/VideoStop.ogg \
     $(LOCAL_PATH)material/effects/WirelessChargingStarted.ogg:system/media/audio/ui/WirelessChargingStarted.ogg \
     $(LOCAL_PATH)material/notifications/Beginning.ogg:system/media/audio/notifications/Beginning.ogg \
     $(LOCAL_PATH)material/notifications/Coconuts.ogg:system/media/audio/notifications/Coconuts.ogg \
