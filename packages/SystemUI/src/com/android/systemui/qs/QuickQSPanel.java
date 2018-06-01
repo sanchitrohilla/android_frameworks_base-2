@@ -67,12 +67,6 @@ public class QuickQSPanel extends QSPanel {
         mTileLayout = new HeaderTileLayout(context);
         mTileLayout.setListening(mListening);
         addView((View) mTileLayout, 0 /* Between brightness and footer */);
-        super.setPadding(0, 0, 0, 0);
-    }
-
-    @Override
-    public void setPadding(int left, int top, int right, int bottom) {
-        // Always have no padding.
     }
 
     @Override
@@ -209,13 +203,16 @@ public class QuickQSPanel extends QSPanel {
             setClipChildren(false);
             setClipToPadding(false);
             setGravity(Gravity.CENTER_VERTICAL);
-            setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+//            setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
             mTileSize = mContext.getResources().getDimensionPixelSize(R.dimen.qs_quick_tile_size);
             mStartMargin = mContext.getResources()
                     .getDimensionPixelSize(R.dimen.qs_scroller_margin) +
                     mContext.getResources()
                             .getDimensionPixelSize(R.dimen.rounded_corner_content_padding);
             mScreenWidth = mContext.getResources().getDisplayMetrics().widthPixels;
+			LayoutParams p = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+			p.setMargins(72, 72, 72, 72);
+            setLayoutParams(p);
         }
 
         @Override
