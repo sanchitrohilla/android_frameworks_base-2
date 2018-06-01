@@ -37,8 +37,9 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.TextClock;
 
+import com.android.keyguard.CarrierText;
 import com.android.settingslib.Utils;
-import com.android.systemui.BatteryMeterView;
+import com.android.systemui.qs.BatteryMeterView;
 import com.android.systemui.Dependency;
 import com.android.systemui.R;
 import com.android.systemui.R.id;
@@ -66,6 +67,7 @@ public class QuickStatusBarHeader extends FrameLayout implements StatusBarHeader
     private BatteryMeterView mBatteryView;
     private Clock mClock;
     private Clock mLeftClock;
+	private CarrierText mCarrierText;
 
     // omni additions
     private HorizontalScrollView mQuickQsPanelScroller;
@@ -89,13 +91,12 @@ public class QuickStatusBarHeader extends FrameLayout implements StatusBarHeader
         updateResources();
 
         // Set the light/dark theming on the header status UI to match the current theme.
-        int colorForeground = Utils.getColorAttr(getContext(), android.R.attr.colorForeground);
+        int colorForeground = Color.parseColor("#ffffff");
         float intensity = colorForeground == Color.WHITE ? 0 : 1;
         Rect tintArea = new Rect(0, 0, 0, 0);
 
         applyDarkness(R.id.battery, tintArea, intensity, colorForeground);
         applyDarkness(R.id.clock, tintArea, intensity, colorForeground);
-
         mBatteryView = findViewById(R.id.battery);
         mBatteryView.setIsQuickSbHeaderOrKeyguard(true);
 
