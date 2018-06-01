@@ -26,9 +26,6 @@
     android:clickable="false"
     android:clipChildren="false"
     android:clipToPadding="false"
-    android:elevation="4dp"
-    android:paddingEnd="0dp"
-    android:paddingStart="0dp"
     android:paddingTop="0dp">
 
     <LinearLayout
@@ -45,6 +42,22 @@
             android:visibility="gone" />
 
     </LinearLayout>
+
+    <com.android.systemui.qs.QuickQSPanel
+        android:id="@+id/quick_qs_panel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="48dp"
+        android:layout_alignParentTop="true"
+		android:minHeight="48dp"
+        android:accessibilityTraversalAfter="@+id/date_time_group"
+        android:accessibilityTraversalBefore="@id/expand_indicator"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:padding="16dp"
+        android:focusable="true"
+        android:importantForAccessibility="yes" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -72,19 +85,6 @@
                 android:paddingEnd="@dimen/qs_scroller_margin"
                 android:paddingStart="@dimen/qs_scroller_margin"
                 android:scrollbars="none">
-
-                <com.android.systemui.qs.QuickQSPanel
-                    android:id="@+id/quick_qs_panel"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentTop="true"
-                    android:accessibilityTraversalAfter="@+id/date_time_group"
-                    android:accessibilityTraversalBefore="@id/expand_indicator"
-                    android:clipChildren="false"
-                    android:clipToPadding="false"
-                    android:focusable="true"
-                    android:importantForAccessibility="yes"/>
 
             </HorizontalScrollView>
         </com.android.systemui.qs.HorizontalClippingLinearLayout>
