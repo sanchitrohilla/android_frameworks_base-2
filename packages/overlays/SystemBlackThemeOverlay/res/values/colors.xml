@@ -35,5 +35,10 @@
     <color name="notification_progress_background_color">@*android:color/theme_text2</color>
     <color name="notification_snooze_text">@*android:color/theme_text1</color>
     <color name="notification_text_color1">@*android:color/theme_text1</color>
+	<color name="dot_qs_active">#ffffff</color>
+	<color name="dot_qs_inactive">#bebebe</color>
+	<color name="dot_qs_unavailable">#706f6f</color>
+	<color name="dot_qs_circle_active">?android:attr/colorAccent</color>
+	<color name="dot_qs_circle_inactive">#212121</color>
 </resources>
 

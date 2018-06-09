@@ -405,7 +405,7 @@ public abstract class QSTileImpl<TState extends State> implements QSTile {
             case Tile.STATE_INACTIVE:
 			    return context.getColor(R.color.qs_tiles_inactive_color);
             case Tile.STATE_ACTIVE:
-                return context.getColor(android.R.color.white);
+                return context.getColor(R.color.qs_tiles_active_color);
             default:
                 Log.e("QSTile", "Invalid state " + state);
                 return 0;

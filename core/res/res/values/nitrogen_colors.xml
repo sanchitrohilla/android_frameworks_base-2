@@ -64,4 +64,11 @@
     <color name="notification_gear_color">#ff757575</color>
     <color name="notification_guts_bg_color">#eeeeee</color>
     <color name="notification_snooze_text">#dd000000</color>
+
+	<color name="dot_qs_active">#ffffff</color> 
+        <color name="dot_qs_inactive">#595959</color> 
+        <color name="dot_qs_unavailable">#706f6f</color> 
+        <color name="dot_qs_circle_active">?android:attr/colorAccent</color>
+	<color name="dot_qs_circle_inactive">#dbdbdb</color>
+
 </resources>
