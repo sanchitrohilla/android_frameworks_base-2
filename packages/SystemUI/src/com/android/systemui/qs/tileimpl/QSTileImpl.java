@@ -401,7 +401,7 @@ public abstract class QSTileImpl<TState extends State> implements QSTile {
         switch (state) {
             case Tile.STATE_UNAVAILABLE:
                 return Utils.getUnavailable(context,
-                 context.getColor(R.color.qs_tiles_unavailable_color));
+                    context.getColor(R.color.qs_tiles_unavailable_color));
             case Tile.STATE_INACTIVE:
 			    return context.getColor(R.color.qs_tiles_inactive_color);
             case Tile.STATE_ACTIVE:
