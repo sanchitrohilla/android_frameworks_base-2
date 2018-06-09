@@ -31,14 +31,4 @@
      <!-- Recents Memory bar -->
     <color name="recents_memory_progress_overall">@*android:color/resize_shadow_start_color</color>
     <color name="recents_memory_progress_free">@*android:color/accent_device_default_light</color>
-    
-    <!-- Brightness Seekbar Colors -->
-    <color name="warning_max_brightness">#d84315</color>
-	
-	<!-- QSPanel Tiles Colors -->
-	<color name="qs_tiles_inactive_color">#595959</color>
-	<color name="qs_tiles_unavailable_color">#706f6f</color>
-	
-	<color name="qs_tiles_circle_inactive">#dbdbdb</color>
-
 </resources>
