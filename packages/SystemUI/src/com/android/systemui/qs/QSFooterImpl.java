@@ -46,6 +46,7 @@ import android.widget.Toast;
 
 import com.android.internal.logging.MetricsLogger;
 import com.android.internal.logging.nano.MetricsProto;
+import com.android.keyguard.CarrierText;
 import com.android.keyguard.KeyguardStatusView;
 import com.android.settingslib.Utils;
 import com.android.systemui.Dependency;
@@ -64,37 +65,27 @@ import com.android.systemui.statusbar.policy.DeviceProvisionedController;
 import com.android.systemui.statusbar.policy.NetworkController;
 import com.android.systemui.statusbar.policy.NetworkController.EmergencyListener;
 import com.android.systemui.statusbar.policy.NetworkController.SignalCallback;
-import com.android.systemui.statusbar.policy.NextAlarmController;
-import com.android.systemui.statusbar.policy.NextAlarmController.NextAlarmChangeCallback;
 import com.android.systemui.statusbar.policy.UserInfoController;
 import com.android.systemui.statusbar.policy.UserInfoController.OnUserInfoChangedListener;
 import com.android.systemui.tuner.TunerService;
 
 public class QSFooterImpl extends FrameLayout implements QSFooter,
-        NextAlarmChangeCallback, OnClickListener, OnLongClickListener, OnUserInfoChangedListener, EmergencyListener,
-        SignalCallback {
+        OnClickListener, OnUserInfoChangedListener, EmergencyListener, SignalCallback {
     private static final float EXPAND_INDICATOR_THRESHOLD = .93f;
 
     private ActivityStarter mActivityStarter;
-    private NextAlarmController mNextAlarmController;
     private UserInfoController mUserInfoController;
     private SettingsButton mSettingsButton;
     protected View mSettingsContainer;
     private View mRunningServicesButton;
 
-    private TextView mAlarmStatus;
-    private View mAlarmStatusCollapsed;
-    private View mDate;
-
     private QSPanel mQsPanel;
 
     private boolean mExpanded;
-    private boolean mAlarmShowing;
 
     protected ExpandableIndicator mExpandIndicator;
 
     private boolean mListening;
-    private AlarmManager.AlarmClockInfo mNextAlarm;
 
     private boolean mShowEmergencyCallsOnly;
     protected MultiUserSwitch mMultiUserSwitch;
@@ -105,10 +96,9 @@ public class QSFooterImpl extends FrameLayout implements QSFooter,
 
     protected View mEdit;
     private TouchAnimator mAnimator;
-    private View mDateTimeGroup;
     private boolean mKeyguardShowing;
-    private TouchAnimator mAlarmAnimator;
-	private TouchAnimator mDateTimeAnimator;
+	
+	private CarrierText mCarrierText;
 
     public QSFooterImpl(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -124,10 +114,6 @@ public class QSFooterImpl extends FrameLayout implements QSFooter,
                 Dependency.get(ActivityStarter.class).postQSRunnableDismissingKeyguard(() ->
                         mQsPanel.showEdit(view)));
 
-        mDateTimeGroup = findViewById(id.date_time_alarm_group);
-        mDate = findViewById(R.id.date);
-        mDate.setOnClickListener(this);
-
         mExpandIndicator = findViewById(R.id.expand_indicator);
         mSettingsButton = findViewById(R.id.settings_button);
         mSettingsContainer = findViewById(R.id.settings_button_container);
@@ -137,13 +123,10 @@ public class QSFooterImpl extends FrameLayout implements QSFooter,
         mRunningServicesButton = findViewById(R.id.running_services_button);
         mRunningServicesButton.setOnClickListener(this);
 
-        mAlarmStatusCollapsed = findViewById(R.id.alarm_status_collapsed);
-        mAlarmStatus = findViewById(R.id.alarm_status);
-        mAlarmStatus.setOnClickListener(this);
-        mAlarmStatusCollapsed.setOnClickListener(this);
-
         mMultiUserSwitch = findViewById(R.id.multi_user_switch);
         mMultiUserAvatar = mMultiUserSwitch.findViewById(R.id.multi_user_avatar);
+
+		mCarrierText = findViewById(R.id.qs_carrier_text);
 
         // RenderThread is doing more harm than good when touching the header (to expand quick
         // settings), so disable it for this view
@@ -151,9 +134,8 @@ public class QSFooterImpl extends FrameLayout implements QSFooter,
         ((RippleDrawable) mExpandIndicator.getBackground()).setForceSoftware(true);
         ((RippleDrawable) mRunningServicesButton.getBackground()).setForceSoftware(true);
 
-        updateResources();
+        updateSettingsAnimator();
 
-        mNextAlarmController = Dependency.get(NextAlarmController.class);
         mUserInfoController = Dependency.get(UserInfoController.class);
         mActivityStarter = Dependency.get(ActivityStarter.class);
         addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight,
@@ -172,55 +154,30 @@ public class QSFooterImpl extends FrameLayout implements QSFooter,
 				.addFloat(mSettingsContainer, "alpha", 0, 1)
                 .addFloat(mSettingsButton, "rotation", -120, 0)
                 .build();
-        if (mAlarmShowing) {
-            mAlarmStatus.setVisibility(View.VISIBLE);
-        } else {
-            mAlarmStatus.setVisibility(View.GONE);
-        }
         setExpansion(mExpansionAmount);
     }
 
     @Override
     protected void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        updateResources();
+        updateSettingsAnimator();
     }
 
     @Override
     public void onRtlPropertiesChanged(int layoutDirection) {
         super.onRtlPropertiesChanged(layoutDirection);
-        updateResources();
-    }
-
-    private void updateResources() {
-        FontSizeUtils.updateFontSize(mAlarmStatus, R.dimen.qs_date_collapsed_size);
         updateSettingsAnimator();
     }
 
     private void updateSettingsAnimator() {
         mSettingsAlpha = createSettingsAlphaAnimator();
-
-        final boolean isRtl = isLayoutRtl();
-        if (isRtl && mDate.getWidth() == 0) {
-            mDate.addOnLayoutChangeListener(new OnLayoutChangeListener() {
-                @Override
-                public void onLayoutChange(View v, int left, int top, int right, int bottom,
-                        int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                    mDate.setPivotX(getWidth());
-                    mDate.removeOnLayoutChangeListener(this);
-                }
-            });
-        } else {
-            mDate.setPivotX(isRtl ? mDate.getWidth() : 0);
-        }
     }
 
     @Nullable
     private TouchAnimator createSettingsAlphaAnimator() {
         return new TouchAnimator.Builder()
+		        .addFloat(mCarrierText, "alpha", 0, 1)
                 .addFloat(mEdit, "alpha", 0, 1)
-				.addFloat(mDateTimeGroup, "alpha", 0, 1)
-				.addFloat(mDate, "alpha", 0, 1)
                 .addFloat(mMultiUserSwitch, "alpha", 0, 1)
                 .addFloat(mRunningServicesButton, "alpha", 0, 1)
                 .build();
@@ -240,24 +197,6 @@ public class QSFooterImpl extends FrameLayout implements QSFooter,
     }
 
     @Override
-    public void onNextAlarmChanged(AlarmManager.AlarmClockInfo nextAlarm) {
-        mNextAlarm = nextAlarm;
-        if (nextAlarm != null) {
-            String alarmString = KeyguardStatusView.formatNextAlarm(getContext(), nextAlarm);
-            mAlarmStatus.setText(alarmString);
-            mAlarmStatus.setContentDescription(mContext.getString(
-                    R.string.accessibility_quick_settings_alarm, alarmString));
-            mAlarmStatusCollapsed.setContentDescription(mContext.getString(
-                    R.string.accessibility_quick_settings_alarm, alarmString));
-        }
-        if (mAlarmShowing != (nextAlarm != null)) {
-            mAlarmShowing = nextAlarm != null;
-            updateAnimator(getWidth());
-            updateEverything();
-        }
-    }
-
-    @Override
     public void setExpansion(float headerExpansionFraction) {
         mExpansionAmount = headerExpansionFraction;
         if (mAnimator != null) mAnimator.setPosition(headerExpansionFraction);
@@ -265,8 +204,6 @@ public class QSFooterImpl extends FrameLayout implements QSFooter,
         if (mSettingsAlpha != null) {
             mSettingsAlpha.setPosition(headerExpansionFraction);
         }
-
-        updateAlarmVisibilities();
 
         mExpandIndicator.setExpanded(headerExpansionFraction > EXPAND_INDICATOR_THRESHOLD);
     }
@@ -276,10 +213,6 @@ public class QSFooterImpl extends FrameLayout implements QSFooter,
     public void onDetachedFromWindow() {
         setListening(false);
         super.onDetachedFromWindow();
-    }
-
-    private void updateAlarmVisibilities() {
-        mAlarmStatusCollapsed.setVisibility(mAlarmShowing ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -304,7 +237,6 @@ public class QSFooterImpl extends FrameLayout implements QSFooter,
     }
 
     private void updateVisibilities() {
-        updateAlarmVisibilities();
         mSettingsContainer.findViewById(R.id.tuner_icon).setVisibility(View.INVISIBLE);
         final boolean isDemo = UserManager.isDeviceInDemoMode(mContext);
 
@@ -314,18 +246,17 @@ public class QSFooterImpl extends FrameLayout implements QSFooter,
         mEdit.setVisibility(isDemo || !mExpanded ? View.INVISIBLE : View.VISIBLE);
 
         mRunningServicesButton.setVisibility(!isDemo && mExpanded ? View.VISIBLE : View.INVISIBLE);
+		mCarrierText.setVisibility(mExpanded ? View.VISIBLE : View.INVISIBLE);
     }
 
     private void updateListeners() {
         if (mListening) {
-            mNextAlarmController.addCallback(this);
             mUserInfoController.addCallback(this);
             if (Dependency.get(NetworkController.class).hasVoiceCallingFeature()) {
                 Dependency.get(NetworkController.class).addEmergencyListener(this);
                 Dependency.get(NetworkController.class).addCallback(this);
             }
         } else {
-            mNextAlarmController.removeCallback(this);
             mUserInfoController.removeCallback(this);
             Dependency.get(NetworkController.class).removeEmergencyListener(this);
             Dependency.get(NetworkController.class).removeCallback(this);
@@ -352,16 +283,6 @@ public class QSFooterImpl extends FrameLayout implements QSFooter,
                     mExpanded ? MetricsProto.MetricsEvent.ACTION_QS_EXPANDED_SETTINGS_LAUNCH
                             : MetricsProto.MetricsEvent.ACTION_QS_COLLAPSED_SETTINGS_LAUNCH);
                 startSettingsActivity();
-        } else if (v == mAlarmStatus || v == mAlarmStatusCollapsed) {
-            Dependency.get(MetricsLogger.class).action(ACTION_QS_DATE,
-                    mNextAlarm != null);
-            if (mNextAlarm != null && mNextAlarm.getShowIntent() != null) {
-                PendingIntent showIntent = mNextAlarm.getShowIntent();
-                mActivityStarter.startPendingIntentDismissingKeyguard(showIntent);
-            } else {
-                mActivityStarter.postStartActivityDismissingKeyguard(new Intent(
-                        AlarmClock.ACTION_SHOW_ALARMS), 0);
-            }
         } else if (v == mDate) {
             Uri.Builder builder = CalendarContract.CONTENT_URI.buildUpon();
             builder.appendPath("time");
@@ -380,7 +301,7 @@ public class QSFooterImpl extends FrameLayout implements QSFooter,
     public boolean onLongClick(View v) {
         if (v == mSettingsButton) {
             startNitrogenActivity();
-        }
+            }
         return false;
     }
 

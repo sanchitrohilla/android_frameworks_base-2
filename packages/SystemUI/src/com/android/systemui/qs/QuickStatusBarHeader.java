@@ -15,6 +15,7 @@
 package com.android.systemui.qs;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
@@ -25,6 +26,7 @@ import android.graphics.Rect;
 import android.graphics.PorterDuff.Mode;
 import android.os.UserHandle;
 import android.provider.Settings;
+import android.provider.AlarmClock;
 import android.support.annotation.VisibleForTesting;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -36,6 +38,7 @@ import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.TextClock;
+import android.widget.TextView;
 
 import com.android.keyguard.CarrierText;
 import com.android.settingslib.Utils;
@@ -46,9 +49,13 @@ import com.android.systemui.R.id;
 import com.android.systemui.crdroid.omnistyle.StatusBarHeaderMachine;
 import com.android.systemui.plugins.ActivityStarter;
 import com.android.systemui.qs.QSDetail.Callback;
+import com.android.systemui.qs.TouchAnimator.Builder;
+import com.android.systemui.qs.TouchAnimator.Listener;
+import com.android.systemui.qs.TouchAnimator.ListenerAdapter;
 import com.android.systemui.statusbar.SignalClusterView;
 import com.android.systemui.statusbar.policy.Clock;
 import com.android.systemui.statusbar.policy.DarkIconDispatcher.DarkReceiver;
+
 
 
 public class QuickStatusBarHeader extends FrameLayout implements StatusBarHeaderMachine.IStatusBarHeaderMachineObserver {
@@ -67,7 +74,8 @@ public class QuickStatusBarHeader extends FrameLayout implements StatusBarHeader
     private BatteryMeterView mBatteryView;
     private Clock mClock;
     private Clock mLeftClock;
-	private CarrierText mCarrierText;
+
+	private View mDate;
 
     // omni additions
     private HorizontalScrollView mQuickQsPanelScroller;
@@ -94,9 +102,6 @@ public class QuickStatusBarHeader extends FrameLayout implements StatusBarHeader
         int colorForeground = Color.parseColor("#ffffff");
         float intensity = colorForeground == Color.WHITE ? 0 : 1;
         Rect tintArea = new Rect(0, 0, 0, 0);
-
-        applyDarkness(R.id.battery, tintArea, intensity, colorForeground);
-        applyDarkness(R.id.clock, tintArea, intensity, colorForeground);
         mBatteryView = findViewById(R.id.battery);
         mBatteryView.setIsQuickSbHeaderOrKeyguard(true);
 
@@ -105,12 +110,27 @@ public class QuickStatusBarHeader extends FrameLayout implements StatusBarHeader
         mLeftClock = findViewById(R.id.left_clock);
         ((Clock)mLeftClock).setIsQshb(true);
 
+        mDate = findViewById(R.id.date);
+
         mActivityStarter = Dependency.get(ActivityStarter.class);
 
        mQuickQsPanelScroller = (HorizontalScrollView) findViewById(R.id.quick_qs_panel_scroll);
        mQuickQsPanelScroller.setHorizontalScrollBarEnabled(false);
        mBackgroundImage = (ImageView) findViewById(R.id.qs_header_image);
- }
+
+
+		mDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+			    mActivityStarter.postStartActivityDismissingKeyguard(new Intent(
+                        AlarmClock.ACTION_SHOW_ALARMS), 0);
+			}
+        });
+	    applyDarkness(R.id.battery, tintArea, intensity, colorForeground);
+        applyDarkness(R.id.clock, tintArea, intensity, colorForeground);
+		applyDarkness(R.id.left_clock, tintArea, intensity, colorForeground);
+		applyDarkness(R.id.date, tintArea, intensity, colorForeground);
+    }
 
     public void updateBatterySettings() {
         if (mBatteryView != null) {
@@ -162,7 +182,6 @@ public class QuickStatusBarHeader extends FrameLayout implements StatusBarHeader
         if (mExpanded == expanded) return;
         mExpanded = expanded;
         mHeaderQsPanel.setExpanded(expanded);
-        updateEverything();
     }
 
     public void setExpansion(float headerExpansionFraction) {
