@@ -211,7 +211,7 @@ public class QuickQSPanel extends QSPanel {
                             .getDimensionPixelSize(R.dimen.rounded_corner_content_padding);
             mScreenWidth = mContext.getResources().getDisplayMetrics().widthPixels;
 			LayoutParams p = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-			p.setMargins(72, 72, 72, 72);
+			p.setMargins(24, 72, 24, 72);
             setLayoutParams(p);
         }
 
