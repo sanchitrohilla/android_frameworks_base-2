@@ -118,7 +118,7 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
         setOrientation(VERTICAL);
 
 		LinearLayout mQSTopSpacer = new LinearLayout(context);
-		LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, 16);
+		LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, 12);
 		mQSTopSpacer.setLayoutParams(lp);
 		addView(mQSTopSpacer);
 		
@@ -219,10 +219,6 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
 		mQSFooter = LayoutInflater.from(context).inflate(
                 R.layout.qs_footer_impl, this, false);
 		addView(mQSFooter);
-
-		LinearLayout mQSBottomSpacer = new LinearLayout(context);
-		mQSBottomSpacer.setLayoutParams(lp);
-		addView(mQSBottomSpacer);
 
         updateResources();
 
