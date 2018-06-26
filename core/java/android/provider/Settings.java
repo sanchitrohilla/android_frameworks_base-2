@@ -4384,6 +4384,12 @@ public final class Settings {
          */
         public static final String POWERMENU_TORCH = "powermenu_torch";
 
+         /**
+         * QS Panel Header ARGB HEX Color
+         * @hide
+         */
+        public static final String QS_HEADER_COLOR = "qs_header_color";
+
         /**
          * Whether to display the screenrecord option in the power menu
          *
