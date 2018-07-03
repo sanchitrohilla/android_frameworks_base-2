@@ -97,17 +97,12 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
     private BrightnessMirrorController mBrightnessMirrorController;
     private View mDivider;
 
-	private Drawable mQsPanelBackGround;
-	private int mQsBackGroundAlpha;
 	private View mQSFooter;
 
     private final Vibrator mVibrator;
 
     public QSPanel(Context context) {
         this(context, null);
-		Handler mHandler = new Handler();
-        SettingsObserver settingsObserver = new SettingsObserver(mHandler);
-        settingsObserver.observe();
     }
 
     public QSPanel(final Context context, AttributeSet attrs) {
@@ -121,7 +116,7 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
 		LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, 12);
 		mQSTopSpacer.setLayoutParams(lp);
 		addView(mQSTopSpacer);
-		
+
         mBrightnessView = LayoutInflater.from(context).inflate(
                 R.layout.quick_settings_brightness_dialog, this, false);
 
@@ -225,31 +220,8 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
         mBrightnessController = new BrightnessController(getContext(),
                 mBrightnessIcon,
                 findViewById(R.id.brightness_slider));
-		mQsPanelBackGround = context.getDrawable(R.drawable.qs_background_primary);
-		setBackground(mQsPanelBackGround);
-    }
-	private class SettingsObserver extends ContentObserver {
-        SettingsObserver(Handler handler) {
-            super(handler);
-        }
+		setBackgroundColor(context.getResources().getColor(android.R.color.transparent));
 
-        void observe() {
-            getContext().getContentResolver().registerContentObserver(Settings.System
-                    .getUriFor(Settings.System.QS_PANEL_BG_ALPHA), false,
-                    this, UserHandle.USER_ALL);
-        }
-
-        @Override
-        public void onChange(boolean selfChange) {
-            updateAlpha();
-        }
-    }
-
-    private void updateAlpha() {
-        mQsBackGroundAlpha = Settings.System.getIntForUser(mContext.getContentResolver(),
-                Settings.System.QS_PANEL_BG_ALPHA, 255,
-                UserHandle.USER_CURRENT);
-		mQsPanelBackGround.setAlpha(mQsBackGroundAlpha);
     }
 
     protected void addDivider() {
