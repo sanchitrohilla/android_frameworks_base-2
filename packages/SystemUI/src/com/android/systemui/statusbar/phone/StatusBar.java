@@ -33,6 +33,7 @@ import static com.android.systemui.statusbar.phone.BarTransitions.MODE_TRANSPARE
 import static com.android.systemui.statusbar.phone.BarTransitions.MODE_WARNING;
 import static com.android.systemui.statusbar.phone.BarTransitions.MODE_POWERSAVE_WARNING;
 
+import android.content.pm.PackageInfo;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.NonNull;
@@ -417,9 +418,26 @@ public class StatusBar extends SystemUI implements DemoMode,
      */
     private static final float SRC_MIN_ALPHA = 0.002f;
 
+<<<<<<< HEAD
     private static final String QS_QUICKBAR_SCROLL_ENABLED =
             "system:" + Settings.System.QS_QUICKBAR_SCROLL_ENABLED;
 
+=======
+	// Accent Overlay Packages
+    private static final String ACCENT_GREEN = "com.android.dot.green";
+    private static final String ACCENT_PIXEL = "com.android.dot.pixel";
+    private static final String ACCENT_PINK = "com.android.dot.pink";
+    private static final String ACCENT_PURPLE = "com.android.dot.purple";
+    private static final String ACCENT_RED = "com.android.dot.red";
+    private static final String ACCENT_SKY = "com.android.dot.sky";
+    private static final String ACCENT_TEAL = "com.android.dot.stock";
+    private static final String ACCENT_YELLOW = "com.android.dot.yellow";
+	private static final String ACCENT_GREY = "com.android.dot.grey";
+	private static final String ACCENT_OXYGEN = "com.android.dot.oxygen";
+    private static final String ACCENT_LEMON = "com.android.dot.lemon";
+	private static final String ACCENT_ORANGE = "com.android.dot.orange";
+			
+>>>>>>> 8976f61... Dot Interface : Implement QS Tiles Alpha and Circle changes
     static {
         boolean onlyCoreApps;
         boolean freeformWindowManagement;
@@ -5290,6 +5308,85 @@ public class StatusBar extends SystemUI implements DemoMode,
         Trace.endSection();
     }
 
+	private boolean isAccentOverlay(String packageName) {
+        try {
+            PackageManager pmUser = getPackageManagerForUser(mContext, mCurrentUserId);
+            PackageInfo pi = pmUser.getPackageInfo(packageName, 0);
+            return pi != null && pi.isAccentOverlay;
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
+    }
+
+	private void setAccent(String accentPackage) {
+        try {
+            mOverlayManager.setEnabledExclusive(accentPackage,
+                    true, mCurrentUserId);
+        } catch (RemoteException e) {
+            Log.w(TAG, "Can't change accent", e);
+        }
+   }
+	private void restoreDefaultAccent() {
+        try {
+            List<OverlayInfo> infos = mOverlayManager.getOverlayInfosForTarget("android",
+                    UserHandle.myUserId());
+            for (int i = 0, size = infos.size(); i < size; i++) {
+                if (infos.get(i).isEnabled() &&
+                        isAccentOverlay(infos.get(i).packageName)) {
+                    mOverlayManager.setEnabled(infos.get(i).packageName, false, UserHandle.myUserId());
+                }
+            }
+        } catch (RemoteException e) {
+        }
+    }
+
+    /**
+     * Switches theme accents.
+     */
+    protected void updateAccent() {
+        int userAccentSetting = Settings.Secure.getIntForUser(mContext.getContentResolver(),
+                Settings.Secure.ACCENT_THEME, 0, mCurrentUserId);
+        switch (userAccentSetting) {
+            case 0:
+                restoreDefaultAccent();
+                break;
+            case 1:
+                setAccent(ACCENT_PIXEL);
+                break;
+            case 2:
+                setAccent(ACCENT_GREEN);
+                break;
+            case 3:
+                setAccent(ACCENT_YELLOW);
+                break;
+            case 4:
+                setAccent(ACCENT_RED);
+                break;
+            case 5:
+                setAccent(ACCENT_PURPLE);
+                break;
+            case 6:
+                setAccent(ACCENT_GREY);
+                break;
+            case 7:
+                setAccent(ACCENT_SKY);
+                break;
+            case 8:
+                setAccent(ACCENT_PINK);
+                break;
+			case 9:
+                setAccent(ACCENT_OXYGEN);
+                break;
+            case 10:
+                setAccent(ACCENT_LEMON);
+                break;
+            case 11:
+                setAccent(ACCENT_ORANGE);
+                break;
+        }
+    }
+
+
     /**
      * Switches theme from light to dark and vice-versa.
      */
@@ -6613,6 +6710,9 @@ public class StatusBar extends SystemUI implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_SHOW_TICKER),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.Secure.getUriFor(
+                    Settings.Secure.ACCENT_THEME),
+                    false, this, UserHandle.USER_ALL);
         }
 
         @Override
@@ -6630,6 +6730,7 @@ public class StatusBar extends SystemUI implements DemoMode,
             setHeadsUpBlacklist();
             setBrightnessSlider();
             updateTheme();
+            updateAccent();
             setQsPanelOptions();
             setForceAmbient();
         }

@@ -1569,6 +1569,11 @@ public final class Settings {
      */
     public static final String EXTRA_INPUT_DEVICE_IDENTIFIER = "input_device_identifier";
 
+     /**
+      handle accent packages
+     */
+     public static final String ACCENT_THEME = "accent_theme";
+
     /**
      * Activity Extra: Enable or disable Airplane Mode.
      * <p>
@@ -4368,7 +4373,24 @@ public final class Settings {
          *
          * @hide
          */
+
         public static final String POWERMENU_POWER = "powermenu_power";
+
+        public static final String IMMERSIVE_RECENTS = "immersive_recents";
+		/**
+         * QS Panel Header ARGB HEX Color
+         * @hide
+         */
+        public static final String QS_HEADER_COLOR = "qs_header_color";
+		/**
+         * QS Tiles Circle Drawable
+		 * 0 - Disabled
+		 * 1 - Enabled [Default]
+         * @hide
+         */
+        public static final String QS_TILE_CIRCLE = "qs_tile_circle";
+
+		public static final String QS_TILE_ALPHA = "qs_tile_alpha";
 
         /**
          * Whether to display the users option in the power menu
@@ -4382,13 +4404,14 @@ public final class Settings {
          *
          * @hide
          */
+
         public static final String POWERMENU_TORCH = "powermenu_torch";
 
          /**
          * QS Panel Header ARGB HEX Color
          * @hide
-         */
         public static final String QS_HEADER_COLOR = "qs_header_color";
+         */
 
         /**
          * Whether to display the screenrecord option in the power menu
@@ -8120,6 +8143,12 @@ public final class Settings {
          */
         public static final String MANAGED_PROFILE_CONTACT_REMOTE_SEARCH =
                 "managed_profile_contact_remote_search";
+
+		/**
+         * 0-12 - Handle Accent Packages
+         * @hide
+         */
+		public static final String ACCENT_THEME = "accent_theme";
 
         /**
          * Whether or not the automatic storage manager is enabled and should run on the device.
