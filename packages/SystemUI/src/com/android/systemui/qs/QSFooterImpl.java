@@ -283,12 +283,6 @@ public class QSFooterImpl extends FrameLayout implements QSFooter,
                     mExpanded ? MetricsProto.MetricsEvent.ACTION_QS_EXPANDED_SETTINGS_LAUNCH
                             : MetricsProto.MetricsEvent.ACTION_QS_COLLAPSED_SETTINGS_LAUNCH);
                 startSettingsActivity();
-        } else if (v == mDate) {
-            Uri.Builder builder = CalendarContract.CONTENT_URI.buildUpon();
-            builder.appendPath("time");
-            builder.appendPath(Long.toString(System.currentTimeMillis()));
-            Intent todayIntent = new Intent(Intent.ACTION_VIEW, builder.build());
-            mActivityStarter.postStartActivityDismissingKeyguard(todayIntent, 0);
         } else if (v == mRunningServicesButton) {
             MetricsLogger.action(mContext,
                     mExpanded ? MetricsProto.MetricsEvent.ACTION_QS_EXPANDED_SETTINGS_LAUNCH
