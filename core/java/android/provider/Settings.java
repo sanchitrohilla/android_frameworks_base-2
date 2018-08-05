@@ -4376,7 +4376,6 @@ public final class Settings {
 
         public static final String POWERMENU_POWER = "powermenu_power";
 
-        public static final String IMMERSIVE_RECENTS = "immersive_recents";
 		/**
          * QS Panel Header ARGB HEX Color
          * @hide

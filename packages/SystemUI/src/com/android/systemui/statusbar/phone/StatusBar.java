@@ -418,11 +418,10 @@ public class StatusBar extends SystemUI implements DemoMode,
      */
     private static final float SRC_MIN_ALPHA = 0.002f;
 
-<<<<<<< HEAD
     private static final String QS_QUICKBAR_SCROLL_ENABLED =
             "system:" + Settings.System.QS_QUICKBAR_SCROLL_ENABLED;
 
-=======
+/**
 	// Accent Overlay Packages
     private static final String ACCENT_GREEN = "com.android.dot.green";
     private static final String ACCENT_PIXEL = "com.android.dot.pixel";
@@ -436,8 +435,7 @@ public class StatusBar extends SystemUI implements DemoMode,
 	private static final String ACCENT_OXYGEN = "com.android.dot.oxygen";
     private static final String ACCENT_LEMON = "com.android.dot.lemon";
 	private static final String ACCENT_ORANGE = "com.android.dot.orange";
-			
->>>>>>> 8976f61... Dot Interface : Implement QS Tiles Alpha and Circle changes
+  */
     static {
         boolean onlyCoreApps;
         boolean freeformWindowManagement;
@@ -5308,7 +5306,7 @@ public class StatusBar extends SystemUI implements DemoMode,
         Trace.endSection();
     }
 
-	private boolean isAccentOverlay(String packageName) {
+/**	private boolean isAccentOverlay(String packageName) {
         try {
             PackageManager pmUser = getPackageManagerForUser(mContext, mCurrentUserId);
             PackageInfo pi = pmUser.getPackageInfo(packageName, 0);
@@ -5340,10 +5338,10 @@ public class StatusBar extends SystemUI implements DemoMode,
         }
     }
 
-    /**
+
      * Switches theme accents.
      */
-    protected void updateAccent() {
+  /**  protected void updateAccent() {
         int userAccentSetting = Settings.Secure.getIntForUser(mContext.getContentResolver(),
                 Settings.Secure.ACCENT_THEME, 0, mCurrentUserId);
         switch (userAccentSetting) {
@@ -5385,7 +5383,7 @@ public class StatusBar extends SystemUI implements DemoMode,
                 break;
         }
     }
-
+  */
 
     /**
      * Switches theme from light to dark and vice-versa.
@@ -6710,9 +6708,9 @@ public class StatusBar extends SystemUI implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_SHOW_TICKER),
                     false, this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.Secure.getUriFor(
-                    Settings.Secure.ACCENT_THEME),
-                    false, this, UserHandle.USER_ALL);
+            //resolver.registerContentObserver(Settings.Secure.getUriFor(
+              //      Settings.Secure.ACCENT_THEME),
+                //    false, this, UserHandle.USER_ALL);
         }
 
         @Override
@@ -6730,7 +6728,7 @@ public class StatusBar extends SystemUI implements DemoMode,
             setHeadsUpBlacklist();
             setBrightnessSlider();
             updateTheme();
-            updateAccent();
+//            updateAccent();
             setQsPanelOptions();
             setForceAmbient();
         }
